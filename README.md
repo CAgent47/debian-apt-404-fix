@@ -1,22 +1,24 @@
-Fix APT 404 Not Found Error on Debian/Ubuntu
+# Fix APT 404 Not Found Error on Debian/Ubuntu
 
-Problem
+# Problem
 
-While installing or repairing packages, APT returned errors similar to:
+**While installing or repairing packages, APT returned errors similar to:**
 
 404 Not Found
+```text
 E: Failed to fetch ...
 E: Unable to fetch some archives
+```
 
-Running:
-
+**Running:**
+```bash
 sudo apt --fix-broken install
-
+```
 alone did not solve the problem.
 
 ---
 
-Cause
+# Cause
 
 The local APT package index was outdated.
 
@@ -24,56 +26,59 @@ APT was trying to download an old package version that had already been removed 
 
 ---
 
-Solution
+# Solution
 
 Run the following commands in order:
 
+```bash
 sudo apt clean
 sudo rm -rf /var/lib/apt/lists/*
 sudo apt update
 sudo apt --fix-broken install
-
+```
 ---
 
-Explanation
+# Explanation
 
-1. Remove cached packages
+**1. Remove cached packages**
 
+```bash
 sudo apt clean
+```
 
-Deletes downloaded package cache from:
-
+*Deletes downloaded package cache from:*
+```bash
 /var/cache/apt/archives/
-
+```
 ---
 
-2. Remove old package indexes
-
+**2. Remove old package indexes**
+```bash
 sudo rm -rf /var/lib/apt/lists/*
-
-Deletes the locally stored repository indexes.
+```
+*Deletes the locally stored repository indexes.*
 
 This does NOT remove installed software.
 
 ---
 
-3. Download a fresh repository index
-
+**3. Download a fresh repository index**
+```bash
 sudo apt update
-
+```
 Downloads the latest package lists from Debian repositories.
 
 ---
 
-4. Repair broken dependencies
-
+**4. Repair broken dependencies**
+```bash
 sudo apt --fix-broken install
-
+```
 Repairs broken packages and installs missing dependencies using the updated repository information.
 
 ---
 
-Why this works
+# Why this works
 
 The package indexes on the system were outdated.
 
@@ -81,7 +86,7 @@ After deleting the old indexes and downloading fresh ones, APT searched for the 
 
 ---
 
-Tested On
+# Tested On
 
 - Debian 12 (Bookworm)
 
@@ -89,18 +94,15 @@ Tested On
 
 Tags
 
-- Debian
-- Linux
-- APT
-- apt
-- 404
-- Package Manager
-- Troubleshooting
-- Dependency
-- Package Not Found
+- [#Debian](https://github.com/topic/debian)
+- [#Linux](https://github.com/topic/linux)
+- [#APT](https://github.com/topic/apt)
+- [#404](https://github.com/topic/404)
+- [#Package Manager](https://github.com/topic/packagemanager)
+- [#Troubleshooting](https://github.com/topic/troubleshooting)
+- [#Dependency](https://github.com/topic/Dependency)
+- [#CAgent_47](https://github.com/topic/CAgent47)
 
 ---
 
-License
-
-MIT
+author: CAgent_47
